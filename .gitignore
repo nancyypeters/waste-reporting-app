@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+env/
+
+# App database (local data, shouldn't be committed)
+*.db
+instance/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

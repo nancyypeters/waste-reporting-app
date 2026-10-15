@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Report an issue · Waste Reporting{% endblock %}
+
+{% block content %}
+  <h1>Report a waste issue</h1>
+  <p class="hint">Click on the map to drop a pin where the issue is, then fill in the details.</p>
+
+  <form method="post" onsubmit="return validateForm()">
+    <div id="map"></div>
+
+    <label for="category">Category</label>
+    <select name="category" id="category" required>
+      {% for c in categories %}
+        <option value="{{ c }}" {% if suggested == c %}selected{% endif %}>{{ c }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="description">Description</label>
+    <textarea name="description" id="description" rows="4" required
+              placeholder="e.g. Three bin bags dumped by the canal path"></textarea>
+
+    <!-- Filled in by the map click; validated before submit. -->
+    <input type="hidden" name="latitude" id="latitude">
+    <input type="hidden" name="longitude" id="longitude">
+
+    <button class="button" type="submit">Submit report</button>
+    <p id="location-note" class="hint">No location selected yet.</p>
+  </form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const map = L.map('map').setView([53.4808, -2.2426], 12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  let marker = null;
+
+  // Clicking the map sets the hidden lat/long fields and moves the pin.
+  map.on('click', e => {
+    const { lat, lng } = e.latlng;
+    document.getElementById('latitude').value = lat.toFixed(6);
+    document.getElementById('longitude').value = lng.toFixed(6);
+    document.getElementById('location-note').textContent =
+      `Location set: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+    if (marker) marker.setLatLng(e.latlng);
+    else marker = L.marker(e.latlng).addTo(map);
+  });
+
+  function validateForm() {
+    if (!document.getElementById('latitude').value) {
+      alert('Please click on the map to set the location first.');
+      return false;
+    }
+    return true;
+  }
+</script>
+{% endblock %}

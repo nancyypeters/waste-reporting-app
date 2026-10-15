@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}All reports · Waste Reporting{% endblock %}
+
+{% block content %}
+  <h1>All reports</h1>
+
+  <!-- Filter bar: submitting the form reloads /reports with query params. -->
+  <form class="filters" method="get">
+    <select name="category" onchange="this.form.submit()">
+      <option value="">All categories</option>
+      {% for c in categories %}
+        <option value="{{ c }}" {% if c == active_category %}selected{% endif %}>{{ c }}</option>
+      {% endfor %}
+    </select>
+    <select name="status" onchange="this.form.submit()">
+      <option value="">All statuses</option>
+      {% for s in statuses %}
+        <option value="{{ s }}" {% if s == active_status %}selected{% endif %}>{{ s }}</option>
+      {% endfor %}
+    </select>
+    <a class="clear" href="{{ url_for('reports') }}">Clear</a>
+  </form>
+
+  {% if reports %}
+    <table>
+      <thead>
+        <tr><th>Category</th><th>Description</th><th>Status</th><th>Reported</th></tr>
+      </thead>
+      <tbody>
+        {% for r in reports %}
+          <tr>
+            <td>{{ r.category }}</td>
+            <td>{{ r.description }}</td>
+            <td><span class="pill">{{ r.status }}</span></td>
+            <td>{{ r.created_at.strftime('%d %b %Y, %H:%M') }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="hint">No reports match this filter yet.</p>
+  {% endif %}
+{% endblock %}

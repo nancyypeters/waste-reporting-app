@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Map · Waste Reporting{% endblock %}
+
+{% block content %}
+  <h1>Reported waste issues</h1>
+  <p class="stats">{{ total }} report(s) · {{ resolved }} resolved</p>
+  <div id="map"></div>
+  <p><a class="button" href="{{ url_for('report') }}">+ Report an issue</a></p>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Centre on Manchester by default; the map re-fits to the data if any.
+  const map = L.map('map').setView([53.4808, -2.2426], 12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Pull every report from the JSON API and drop a pin for each.
+  fetch("{{ url_for('api_reports') }}")
+    .then(r => r.json())
+    .then(reports => {
+      const bounds = [];
+      reports.forEach(rep => {
+        const marker = L.marker([rep.latitude, rep.longitude]).addTo(map);
+        marker.bindPopup(
+          `<b>${rep.category}</b><br>${rep.description}` +
+          `<br><small>${rep.status} · ${rep.created_at}</small>`
+        );
+        bounds.push([rep.latitude, rep.longitude]);
+      });
+      if (bounds.length) map.fitBounds(bounds, { padding: [40, 40] });
+    });
+</script>
+{% endblock %}

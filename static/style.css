@@ -1,0 +1,45 @@
+/* Minimal, clean styling. Palette nods to the winter theme:
+   Pine #27363F (headers), Berry #6B212C (accents), Mist #8EA1AE. */
+
+* { box-sizing: border-box; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  margin: 0;
+  color: #27363F;
+  background: #f7f8fa;
+}
+header {
+  background: #27363F;
+  color: #fff;
+  padding: 0.8rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.brand { color: #fff; text-decoration: none; font-weight: 700; font-size: 1.1rem; }
+nav a { color: #DCE0E8; text-decoration: none; margin-left: 1rem; }
+nav a:hover { color: #fff; }
+main { max-width: 900px; margin: 1.5rem auto; padding: 0 1rem; }
+h1 { font-size: 1.5rem; }
+.stats, .hint { color: #685652; }
+#map { height: 380px; border-radius: 10px; margin: 1rem 0; border: 1px solid #BEB3AC; }
+label { display: block; margin: 1rem 0 0.3rem; font-weight: 600; }
+select, textarea, input {
+  width: 100%; padding: 0.6rem; border: 1px solid #8EA1AE;
+  border-radius: 8px; font-size: 1rem; font-family: inherit;
+}
+.button {
+  display: inline-block; margin-top: 1rem; background: #6B212C; color: #fff;
+  padding: 0.6rem 1.2rem; border: none; border-radius: 8px;
+  font-size: 1rem; text-decoration: none; cursor: pointer;
+}
+.button:hover { background: #561a23; }
+.filters { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; }
+.filters select { width: auto; }
+.clear { color: #6B212C; text-decoration: none; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; }
+th, td { text-align: left; padding: 0.7rem; border-bottom: 1px solid #e5e2dc; vertical-align: top; }
+th { background: #DCE0E8; }
+.pill { background: #8EA1AE; color: #fff; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.85rem; }
